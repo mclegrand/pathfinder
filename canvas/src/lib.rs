@@ -783,6 +783,12 @@ impl Path2D {
         self.current_contour.push_arc_from_unit_chord(&transform, chord, ArcDirection::CW);
     }
 
+    #[inline]
+    pub fn elliptical_svg_arc_to(&mut self, radius: Vector2F, x_axis_rotation: f32, large_arc: bool, direction: ArcDirection, to: Vector2F) {
+        self.current_contour.push_svg_arc(radius, x_axis_rotation, large_arc, direction, to);
+    }
+
+
     pub fn rect(&mut self, rect: RectF) {
         self.flush_current_contour();
         self.current_contour.push_endpoint(rect.origin());

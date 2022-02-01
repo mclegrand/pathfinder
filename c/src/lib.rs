@@ -507,6 +507,22 @@ pub unsafe extern "C" fn PFPathArcTo(path: PFPathRef,
 }
 
 #[no_mangle]
+pub unsafe extern "C" fn PFPathEllipticalArcTo(path: PFPathRef,
+                                               radius: *const PFVector2F,
+                                               x_axis_rotation: f32,
+                                               large_arc: bool,
+                                               direction: PFArcDirection,
+                                               to: *const PFVector2F) {
+    let direction = match direction {
+        PF_ARC_DIRECTION_CW  => ArcDirection::CW,
+        PF_ARC_DIRECTION_CCW => ArcDirection::CCW,
+    _                        => panic!("Invalid Pathfinder arc direction!"),
+    };
+
+    (*path).elliptical_svg_arc_to((*radius).to_rust(), x_axis_rotation, large_arc, direction, (*to).to_rust())
+}
+
+#[no_mangle]
 pub unsafe extern "C" fn PFPathRect(path: PFPathRef, rect: *const PFRectF) {
     (*path).rect((*rect).to_rust())
 }
